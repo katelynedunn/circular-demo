@@ -1,0 +1,121 @@
+# Circular Financial Services - Coding Standards (ORG-WIDE MANDATORY)
+# This file defines AI-assisted coding rules for Cursor AI editor
+# ALL RULES ARE MANDATORY ACROSS ALL REPOSITORIES AND TEAMS
+
+## *** MANDATORY ORGANIZATION-WIDE REQUIREMENTS ***
+
+### REQUIRED LOGGING (NO EXCEPTIONS)
+- Every function that handles financial data MUST include structured logging with:
+  - Transaction ID (UUID format)
+  - User ID performing the action
+  - Timestamp (ISO 8601 format)
+  - Action type and parameters (sanitized)
+  - Request correlation ID
+- All database operations MUST log: operation type, affected records count, execution time
+- API endpoints MUST log: HTTP method, endpoint, user ID, response status, processing time
+- Use structured JSON logging format only (no console.log or println statements)
+- Log levels: ERROR for failures, WARN for business rule violations, INFO for financial operations, DEBUG disabled in production
+
+### REQUIRED SECURITY (NO EXCEPTIONS)
+- ALL user inputs MUST be validated and sanitized before processing
+- ALL database queries MUST use parameterized statements (no string concatenation)
+- ALL API endpoints MUST require authentication and authorization checks
+- ALL financial calculations MUST use Decimal/BigDecimal types (never float/double)
+- ALL PII and financial data MUST be encrypted at rest and in transit
+- ALL external service calls MUST include timeout handling and circuit breakers
+- ALL sensitive data MUST be redacted from logs and error messages
+- Rate limiting MUST be implemented on all financial endpoints
+
+### REQUIRED ERROR HANDLING (NO EXCEPTIONS)
+- ALL functions MUST have comprehensive try-catch blocks with specific error types
+- ALL errors MUST be logged with correlation IDs for tracking
+- ALL user-facing errors MUST be sanitized (no stack traces or internal details exposed)
+- ALL financial operations MUST implement rollback mechanisms on failure
+- ALL external service calls MUST have retry logic with exponential backoff
+- ALL database transactions MUST be atomic with proper rollback handling
+- ALL async operations MUST have timeout handling
+- Custom error types MUST be used instead of generic Error/Exception
+
+### REQUIRED SOX COMPLIANCE (NO EXCEPTIONS)
+- ALL financial operations MUST generate audit trails with:
+  - Before and after state changes
+  - Business justification for the change
+  - Approver information (when required)
+  - Regulatory compliance tags
+- ALL account balance modifications MUST require dual authorization
+- ALL user permission changes MUST be logged with manager approval
+- ALL data modifications MUST include retention timestamps for 7-year compliance
+- ALL financial calculations MUST include input validation and range checks
+- ALL system access MUST be logged with user identity verification
+- ALL configuration changes MUST require approval workflow documentation
+- ALL sensitive operations MUST generate compliance reports
+
+## TypeScript/JavaScript Mandatory Rules
+- MUST use Decimal.js for all monetary calculations
+- MUST implement input validation using Joi or similar schema validation
+- MUST use structured logging libraries (Winston, Pino)
+- MUST implement request correlation IDs across all API calls
+- MUST use TypeScript strict mode with null checks enabled
+- MUST implement proper session management with secure tokens
+- MUST sanitize all user inputs to prevent XSS/injection attacks
+- ALL async operations MUST include proper error boundaries
+
+## Kotlin Backend Mandatory Rules  
+- MUST use BigDecimal for all financial amounts and rates
+- MUST implement sealed classes for operation results (Success/Failure)
+- MUST use structured logging with correlation context
+- MUST implement proper transaction management with @Transactional
+- MUST validate all inputs using Bean Validation annotations
+- MUST implement circuit breaker pattern for external service calls
+- MUST use Result types instead of throwing exceptions for business logic
+- ALL database operations MUST use repositories with audit logging
+
+## Security Mandatory Rules (ZERO TOLERANCE)
+- NEVER hardcode API keys, passwords, or sensitive configuration
+- NEVER log sensitive data (SSNs, account numbers, passwords, tokens)
+- NEVER use eval() or similar dynamic code execution
+- NEVER trust user input without validation and sanitization
+- NEVER expose internal error details in API responses
+- NEVER store PII in plain text
+- NEVER skip authentication/authorization checks
+- NEVER ignore security headers and CORS policies
+
+## SOX Compliance Mandatory Rules (REGULATORY REQUIREMENT)
+- ALL financial data access MUST be logged with user identification
+- ALL balance modifications MUST include before/after amounts with timestamps
+- ALL user role changes MUST be approved and documented
+- ALL system configurations MUST be version controlled with approval trails
+- ALL financial reports MUST include data integrity checksums
+- ALL external data feeds MUST be validated and logged
+- ALL backup operations MUST be verified and compliance-tagged
+- ALL production deployments MUST include rollback plans and approval documentation
+
+## Code Organization (ENFORCED)
+- Financial operations MUST be in /financial-services/ directory
+- Audit logging MUST be in /audit/ directory with read-only access
+- Security utilities MUST be in /security/ directory
+- All database schemas MUST be in /schemas/ with migration audit trails
+- Compliance reports MUST be in /compliance/ directory
+- All configuration MUST be in /config/ with approval documentation
+
+## Testing Requirements (MANDATORY)
+- ALL financial calculations MUST have 100% test coverage
+- ALL security controls MUST have penetration test validation
+- ALL error scenarios MUST have specific test cases
+- ALL compliance workflows MUST have audit trail validation tests
+- ALL external integrations MUST have mock testing with failure scenarios
+- ALL database operations MUST have transaction rollback tests
+
+## Deployment Requirements (SOX MANDATED)
+- ALL production deployments MUST be approved by two senior engineers
+- ALL configuration changes MUST go through change management workflow
+- ALL database migrations MUST be reversible with approval documentation
+- ALL external service configurations MUST be documented and approved
+- ALL production access MUST be logged and time-limited
+- ALL emergency changes MUST be documented with business justification
+
+## VIOLATION CONSEQUENCES
+- Code that violates these standards will be automatically rejected by CI/CD
+- Repeated violations will trigger compliance team review
+- Security violations may result in immediate code freeze
+- SOX violations must be reported to audit committee within 24 hours
