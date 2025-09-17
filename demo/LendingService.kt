@@ -1,4 +1,4 @@
-// LendingService.kt - Contains issues that Greptile would catch for Kotlin backend
+// LendingService.kt 
 package com.circular.lending
 
 import java.math.BigDecimal
