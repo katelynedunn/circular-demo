@@ -1,0 +1,50 @@
+# Circular Financial Services - Coding Standards
+# This file defines AI-assisted coding rules for Cursor AI editor
+
+## General Principles
+- Always prioritize security and compliance in financial services code
+- Follow SOX compliance requirements for logging and audit trails
+- Implement comprehensive error handling with proper logging
+- Use strict typing to prevent financial calculation errors
+
+## TypeScript/JavaScript Rules
+- Use strict null checks and proper error handling
+- All financial calculations must include input validation
+- API endpoints handling financial data require authentication middleware
+- Database transactions must be wrapped in proper error handling
+- Logging must include transaction IDs for audit trails
+- Use decimal.js for monetary calculations to avoid floating-point errors
+- All async operations must have timeout handling
+
+## Kotlin Backend Rules  
+- Use data classes for financial entities with validation
+- All service methods must include comprehensive logging
+- Database operations require transaction management
+- Input sanitization is mandatory for all user inputs
+- Use sealed classes for representing financial operation results
+- Implement circuit breaker pattern for external service calls
+
+## Security Requirements
+- Never log sensitive financial data (account numbers, SSNs)
+- All API responses must sanitize error messages in production
+- Use parameterized queries to prevent SQL injection
+- Implement rate limiting for financial operations
+- Validate all monetary amounts and account identifiers
+
+## Compliance & Audit
+- All financial operations must log: timestamp, user ID, transaction ID, operation type
+- Changes to user account balances require manager approval in comments
+- Code handling PII must include privacy compliance comments
+- Financial calculation changes require detailed commit messages explaining the business logic
+
+## Code Organization
+- Place payment logic in /payments/ directory
+- Place lending logic in /lending/ directory  
+- Shared financial utilities go in /financial-utils/
+- All database schemas in /schemas/ with migration scripts
+
+## Testing Requirements
+- Financial calculations must have comprehensive unit tests
+- Integration tests required for payment processing flows
+- Mock external financial services in tests
+- Test error scenarios and edge cases thoroughly
